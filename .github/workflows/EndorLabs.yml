@@ -20,13 +20,16 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
+      
     - name: Setup Java
       uses: actions/setup-java@v3
       with:
         distribution: 'microsoft'
         java-version: '17'
+
     - name: Build Package
       run: mvn clean install
+
     - name: Endor Labs Scan Pull Request
       if: github.event_name == 'pull_request'
       uses: endorlabs/github-action@v1.1.4
@@ -50,15 +53,18 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
+
     - name: Setup Java
       uses: actions/setup-java@v3
       with:
         distribution: 'microsoft'
         java-version: '17'
+
     - name: Build Package
       run: mvn clean install
+
     - name: 'Endor Labs Scan Push to main'
-      # if: ${{ github.event_name == 'push' }}
+      if: ${{ github.event_name == 'push' }}
       uses: endorlabs/github-action@v1.1.4
       with:
         namespace: '${{ secrets.ENDOR_NAMESPACE }}' 
@@ -70,8 +76,13 @@ jobs:
         api_key: ${{ secrets.ENDOR_API_CREDENTIALS_KEY }}
         api_secret: ${{ secrets.ENDOR_API_CREDENTIALS_SECRET }}
         enable_github_action_token: false
+
+    - name: Verify SARIF File
+      if: ${{ github.event_name == 'push' }}
+      run: ls -l findings.sarif
+
     - name: Upload findings to github
-      # if: ${{ github.event_name == 'push' }}
+      if: ${{ github.event_name == 'push' }}
       uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: 'findings.sarif'
