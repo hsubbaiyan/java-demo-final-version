@@ -67,8 +67,8 @@ jobs:
         pr: false
         scan_summary_output_type: 'table'
         sarif_file: 'findings.sarif'
-        # api_key: ${{ secrets.ENDOR_API_CREDENTIALS_KEY }}
-        # api_secret: ${{ secrets.ENDOR_API_CREDENTIALS_SECRET }}
+        api_key: ${{ secrets.ENDOR_API_CREDENTIALS_KEY }}
+        api_secret: ${{ secrets.ENDOR_API_CREDENTIALS_SECRET }}
         # enable_github_action_token: false
     - name: Upload findings to github
       # if: ${{ github.event_name == 'push' }}
