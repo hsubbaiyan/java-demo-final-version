@@ -1,18 +1,18 @@
 package org.thymeleaf.spring.support;
 
-import org.springframework.util.Assert;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.util.Assert;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 
 /**
  * From https://github.com/kolorobot/thymeleaf-custom-layout
  */
-public class ThymeleafLayoutInterceptor extends HandlerInterceptorAdapter {
+public class ThymeleafLayoutInterceptor implements HandlerInterceptor {
 
     private static final String DEFAULT_LAYOUT = "layouts/default";
     private static final String DEFAULT_VIEW_ATTRIBUTE_NAME = "view";
