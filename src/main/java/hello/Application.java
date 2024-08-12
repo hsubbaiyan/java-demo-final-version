@@ -1,31 +1,30 @@
 package hello;
 
+import java.io.File;
+
 import org.apache.catalina.session.FileStore;
 import org.apache.catalina.session.PersistentManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
-import java.io.File;
-import java.util.Arrays;
 
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
 public class Application {
-    private Log log = LogFactory.getLog(Application.class);
+    private static final Log log = LogFactory.getLog(Application.class);
 
     @Bean
-    public EmbeddedServletContainerCustomizer containerCustomizer() {
-        return factory -> {
-            TomcatEmbeddedServletContainerFactory containerFactory = (TomcatEmbeddedServletContainerFactory) factory;
-            containerFactory.setTomcatContextCustomizers(Arrays.asList(context -> {
+    public WebServerFactoryCustomizer<TomcatServletWebServerFactory> containerCustomizer() {
+        return (TomcatServletWebServerFactory factory) -> {
+            TomcatServletWebServerFactory containerFactory = (TomcatServletWebServerFactory) factory;
+            containerFactory.addContextCustomizers(context -> {
                 final PersistentManager persistentManager = new PersistentManager();
                 final FileStore store = new FileStore();
 
@@ -35,11 +34,11 @@ public class Application {
 
                 persistentManager.setStore(store);
                 context.setManager(persistentManager);
-            }));
+            });
         };
     }
 
-    private String makeSessionDirectory() {
+    private static String makeSessionDirectory() {
         final String cwd = System.getProperty("user.dir");
         return cwd + File.separator + "sessions";
     }
