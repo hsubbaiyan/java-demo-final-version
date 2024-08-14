@@ -67,7 +67,7 @@ jobs:
       if: ${{ github.event_name == 'push' }}
       uses: endorlabs/github-action@v1.1.4
       with:
-        namespace: '${{ secrets.ENDOR_NAMESPACE }}' 
+        namespace: ${{ secrets.ENDOR_NAMESPACE }}
         scan_dependencies: true
         scan_secrets: true
         pr: false
