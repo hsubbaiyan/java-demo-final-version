@@ -7,7 +7,7 @@ Maven and Java 8 to develop standalone application with hot-reloading of changes
 This makes it as easy and fast to develop in plain java as with [grails](https://grails.org) or
 [Ruby on Rails](http://rubyonrails.org).
 
-## Quickstart
+## Quickstart  fg
 
 1. Clone this git repo
 1. Open two terminal windows and change to the cloned directory
